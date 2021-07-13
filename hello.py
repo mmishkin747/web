@@ -1,5 +1,4 @@
-from urllib.parse import parse_qs
-from re import sub
+
 
 def app(environ, start_response):
 	status = "200 OK"
@@ -8,6 +7,6 @@ def app(environ, start_response):
 	('Content-type', 'text/plain'),
 	('Content-Length', str(len(data)))
 	]
+	body = [bytes(i + '\n', 'ascii') for i in environ['QUERY_STRING'].split('&')]
 	start_response(status, response_headers)
-	print(environ.get('QUERY_STRING'))
-	return iter([data])
+	return iter(body)
