@@ -1,16 +1,17 @@
-from django.conf.urls import url, include
+from django.urls import path, re_path
 from django.contrib import admin
 
-from . import views
+from .views import test
 
 urlpatterns = [
-    url(r'^$', 'test'),
-    url(r'^popular/.*', 'test', name='popular'),
-    url(r'^ask/.*', 'test', name='ask'),
-    url(r'^answer/.*', 'test', name='answer'),
-    url(r'^signup/.', 'test', name='signup'),
-    url(r'^login/.*$', views.test, name='login'),
-    url(r'^logout/.*', 'test', name='logout'),
-    url(r'^new/.*$', views.test),
-    url(r'question/(?P<question_id>[0-9]+)/$', 'test', name='question'),
+    re_path(r'^$', test),
+    re_path(r'^popular/.*', test, name='popular'),
+    re_path(r'^ask/.*', test, name='ask'),
+    re_path(r'^answer/.*', test, name='answer'),
+    re_path(r'^signup/.', test, name='signup'),
+    re_path(r'^login/.*$', test, name='login'),
+    re_path(r'^logout/.*', test, name='logout'),
+    re_path(r'^new/.*$', test),
+    re_path(r'question/(?P<question_id>[0-9]+)/$', test, name='question'),
+    path('test/', test)
 ]
