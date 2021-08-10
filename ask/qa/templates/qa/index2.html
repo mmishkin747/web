@@ -1,0 +1,42 @@
+{% extends 'qa/base.html' %}
+
+{% block title %}
+{{ block.super }} New Questions - Page {{ questions.number }}{{ page }}
+{% endblock %}
+
+{% block content %}
+
+<p>test</p>
+{% if questions %}
+  <div class="questions">
+    {% for question in questions %}
+    <div class="question">
+      <h3>Q{{ question.id }}: {{ question.title }}</h3>
+      <h5>Rating: {{ question.rating }}. Added by {{question.author.username}} on {{ question.added_at }}</h5>
+      <p>{{ question.text }}</p>
+
+    </div>
+    <hr>
+    {% endfor %}
+
+  </div>
+{% else %}
+    <p>No QUESTION...</p>
+{% endif %}
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if questions.has_previous %}
+      <a href="?page={{ questions.previous_page_namber }}&limit={{ limit }}"><<</a>
+      {% endif %}
+      <span class="current">
+        Page {{ questions.namber }} of {{ questions.paginator.num_page }}
+      </span>
+      {% if questions.nas_next %}
+      <a href="?page={{ questions.next_page_number }}&limit={{limit}}">>></a>
+      {% endif %}
+    </span>
+
+  </div>
+{%  endblock %}
+<p>test</p>

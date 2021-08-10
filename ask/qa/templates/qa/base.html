@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Ask Me Anything - {% endblock %}</title>
+
+    {% block meta %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block context %}
+      <nav class="navigation">
+        <a href="/ask/">Ask</a>
+        <a href="/">New</a>
+        <a href="/popular/">Popular</a>
+        <a href="/signup/">Sing Up</a>
+        <a href="/login/">Log In</a>
+      </nav>
+    {% endblock %}
+  </body>
+</html>
