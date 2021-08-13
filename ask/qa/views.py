@@ -4,6 +4,7 @@ from django.views.decorators.http import require_GET
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from .forms import AnswerForm, AskForm
+from django.contrib.auth.models import User
 
 
 def test(request, *args, **kwargs):
@@ -69,7 +70,7 @@ def ask(request):
     if request.method == 'POST':
         form = AskForm(request.POST)
         if form.is_valid():
-            form._user = request.user
+            form._user = User.objects.get(id=1)
             question = form.save()
             url = question.get_url()
             return HttpResponseRedirect(url)
