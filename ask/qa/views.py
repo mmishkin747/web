@@ -56,7 +56,6 @@ def popular(request):
 def question(request, question_id):
     q = get_object_or_404(Question, id=question_id)
     a = q.answer_set.all()
-    #a = Answer.objects.filter(question=question_id).order_by('-added_at')
     form = AnswerForm(initial={'question': question_id})
     context = {
         'question': q,
@@ -84,8 +83,9 @@ def answer(request):
         form = AnswerForm(request.POST)
         if form.is_valid():
             print('Answer is valid')
-            form._user = request.user
+            form._user = User.objects.get(id=1)
             answer = form.save()
             url = answer.get_url()
+            print('>>>>>>>>' + url+'<<<<<<<')
             return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
