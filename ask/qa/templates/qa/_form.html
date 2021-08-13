@@ -1,0 +1,21 @@
+{% for e in form.non_field_errors %}
+<div class="alert-danger">
+  {{e}}
+</div>
+{% endfor %}
+
+<form class="from-horizontal" action="" method="post">
+  <fieldset>
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="control-group {% if field.error %}has-error{% endif %}">
+      <label class="control-label">{{ field.label }}</label>
+      <div class="controls">{{ field }}</div>
+    </div>
+    {% endfor %}
+  </fieldset>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+
+</form>

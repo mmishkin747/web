@@ -12,9 +12,27 @@
     <hr>
     <ul>
       {% for answer in question.answer_set.all %}
-      <li>{{answer}}, {{answer.author_id}}</li>
+      <li>{{answer.text }}, {{answer.author_id}}</li>
       {% endfor %}
     </ul>
+    {% for e in form.non_field_errors %}
+      <div class="alert alert-danger">{{ e }}</div>
+    {% endfor %}
     <hr>
+    <form class="form-horizontal" action="/answer/" method="post">
+      <fieldset>
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="control-group {% if field.error %}has-error{% endif %}">
+          <label class="control-label">{{ field.label }} </label>
+          <div class="controls">{{ field }}</div>
+        </div>
+        {% endfor %}
+      </fieldset>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+
+    </form>
   </body>
 </html>

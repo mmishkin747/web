@@ -8,7 +8,7 @@
     <h1>{{ title }} questions</h1>
     {% if questions %}
     {%for question in questions %}
-      <p><a href="{{question.get_url}}">{{question}}, {{question.author_id}}</a></p>
+      <p><a href="{{ question.get_url }}">{{ question.title }}, {{question.author_id}}</a></p>
     {%endfor%}
     {%else%}
     <p>No questions</p>
