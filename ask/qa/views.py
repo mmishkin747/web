@@ -2,9 +2,11 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from .models import Question, Answer
 from django.views.decorators.http import require_GET
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render, get_object_or_404
-from .forms import AnswerForm, AskForm
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import AnswerForm, AskForm, LoginForm, SignupForm
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
 
 
 def test(request, *args, **kwargs):
@@ -29,7 +31,7 @@ def index(request):
         'user': request.user,
         'session': request.session,
     }
-    return render(request, 'qa/index.html', context)
+    return render(request, 'qa/index2.html', context)
 
 
 def popular(request):
@@ -69,7 +71,7 @@ def ask(request):
     if request.method == 'POST':
         form = AskForm(request.POST)
         if form.is_valid():
-            form._user = User.objects.get(id=1)
+            form._user = request.user
             question = form.save()
             url = question.get_url()
             return HttpResponseRedirect(url)
@@ -83,9 +85,39 @@ def answer(request):
         form = AnswerForm(request.POST)
         if form.is_valid():
             print('Answer is valid')
-            form._user = User.objects.get(id=1)
+            form._user = request.user  # User.objects.get(id=1)
             answer = form.save()
             url = answer.get_url()
             print('>>>>>>>>' + url+'<<<<<<<')
             return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
+
+
+def user_signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            print('no valid')
+    form = SignupForm()
+    return render(request, 'qa/signup.html', {'form': form})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('index')
+    form = LoginForm()
+    return render(request, 'qa/login.html', {'form': form})
+
+
+def user_logout(request):
+    if request.user is not None:
+        logout(request)
+        return HttpResponseRedirect(reverse('index'))
